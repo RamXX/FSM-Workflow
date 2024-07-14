@@ -1,0 +1,5 @@
+transitions
+asyncpg
+pydantic
+python-dotenv
+pydantic_settings
