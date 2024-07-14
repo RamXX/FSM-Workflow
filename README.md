@@ -1,7 +1,7 @@
 # FSM-Workflow
 ### A lightweight, async-friendly workflow system with state persistence for Python
 
-FSM-Workflow is an extremely lightweight, async-friendly workflow system with state persistence to PostgreSQL. It's designed to handle complex, multi-step processes that may need to be paused, resumed, or recovered in case of failure.
+FSM-Workflow is an extremely lightweight, async-friendly workflow system with state persistence to PostgreSQL. It's designed to handle complex, multi-step processes that may need to be recovered in case of failure.
 
 When the program crashes at any given state, the next time the run happens, the program starts at the beginning of the last unfinished state.
 
