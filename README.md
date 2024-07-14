@@ -84,7 +84,7 @@ await db_config.close()
 
 Or, if you already have the table and you just want to reset it by cleaning up all its content, you can call `db_config.reset_db()` instead of `init_db()`.
 
-If you get an error in this stage, make sure your Postgres credentials have enough permissions to perfomr the table and index creation.
+If you get an error in this stage, make sure your Postgres credentials have enough permissions to perform the table and index creation.
 
 ### 2. Define your workflow
 
