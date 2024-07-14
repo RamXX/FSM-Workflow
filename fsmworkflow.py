@@ -32,9 +32,7 @@ class DBConfig(BaseSettings):
         self.pool: Optional[asyncpg.Pool] = None
 
     def dict(self, *args, **kwargs):
-        # Use model_dump() for Pydantic v2, dict() for v1
         d = self.model_dump() if hasattr(self, 'model_dump') else super().dict(*args, **kwargs)
-        # Remove non-connection related attributes
         for key in ['name', 'pool']:
             d.pop(key, None)
         return d

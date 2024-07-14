@@ -100,7 +100,7 @@ Use them as a starting point.
 
 ```python
 import asyncio
-from workflow import PersistentWorkflowStateMachine
+from fsmworkflow import PersistentWorkflowStateMachine
 
 async def main():
     workflow = PersistentWorkflowStateMachine(db_config, workflow_definition)
