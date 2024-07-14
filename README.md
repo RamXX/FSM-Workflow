@@ -137,6 +137,72 @@ except Exception as e:
     print("You can resume the workflow later from the last saved state.")
 ```
 
+## Running Synchronous Steps
+While this workflow system is designed for asynchronous operations, it's possible to incorporate synchronous steps or flows:
+To run synchronous steps within this async framework, you can wrap your sync functions in async wrappers. Here's an example:
+
+```python
+import asyncio
+
+def sync_step(context):
+    # Your synchronous code here
+    context.data['sync_step_completed'] = True
+    return context, None
+
+async def async_wrapper(context):
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(None, sync_step, context)
+
+# Define your workflow step
+steps["sync_step"] = WorkflowStep(name="sync_step", execute=async_wrapper)
+
+```
+
+For entirely synchronous flows, you can use asyncio.run() to execute the entire workflow in a synchronous context. However, this approach may negate some of the benefits of asynchronous execution, so it's recommended to use async steps whenever possible.
+
+## Auto-Restart Mechanisms
+While this workflow system handles persistence and state management, it doesn't directly manage automatic restarts. For production environments, it's recommended to use external process managers or orchestration tools. Here are some suitable options:
+
+- **Systemd (for Linux systems):**
+  Offers automatic restart with configurable delay and retry limits.
+Supports backoff strategies with `RestartSec` and `StartLimitIntervalSec` options.
+Example systemd service file:
+
+```
+[Unit]
+Description=My Workflow Service
+
+[Service]
+ExecStart=/path/program.py
+Restart=on-failure
+RestartSec=5s
+StartLimitIntervalSec=60s
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
+```
+
+- **Kubernetes:**
+Native support for auto-restart with customizable backoff policies.
+Use Deployment resources with restartPolicy and backoffLimit settings.
+Example Kubernetes deployment snippet:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow-deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: workflow-container
+        image: your-workflow-image
+      restartPolicy: OnFailure
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
